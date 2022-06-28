@@ -74,18 +74,23 @@ div {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: 0.6s ease;
   font-size: 12px;
+  background-color: var(--white);
 }
 
 .calendar-cell:hover,
 .calendar-cell.selected {
   background-color: var(--blue);
   color: white;
+  transition: 0.6s ease;
 }
 
 .calendar-cell.disabled {
   color: var(--mid-grey);
+}
+.diff-month {
+  pointer-events: none;
+  opacity: 0;
 }
 
 .disabled {

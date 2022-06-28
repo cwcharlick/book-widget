@@ -59,7 +59,14 @@ function Calendar() {
   );
 }
 
-function weekRow(date, key = 1, today, selectedDate, setSelectedDate) {
+function weekRow(
+  date,
+  key = 1,
+  today,
+  selectedDate,
+  setSelectedDate,
+  startMonth
+) {
   const days = [0, 1, 2, 3, 4, 5, 6];
   const currentDate = new Date(date);
 
@@ -71,7 +78,12 @@ function weekRow(date, key = 1, today, selectedDate, setSelectedDate) {
     );
     let useClass = 'calendar-cell';
     if (thisDate.valueOf() < today.valueOf()) useClass += ' disabled';
-    if (selectedDate.valueOf() === thisDate.valueOf()) useClass += ' selected';
+    if (
+      selectedDate.valueOf() === thisDate.valueOf() &&
+      thisDate.getMonth() === startMonth
+    )
+      useClass += ' selected';
+    if (thisDate.getMonth() !== startMonth) useClass += ' diff-month';
 
     return (
       <div
@@ -109,7 +121,8 @@ function createTable(date, startMonth, today, selectedDate, setSelectedDate) {
       i,
       today,
       selectedDate,
-      setSelectedDate
+      setSelectedDate,
+      startMonth
     );
   });
 
