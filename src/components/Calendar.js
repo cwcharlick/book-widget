@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-function Calendar() {
-  const todayWithTime = new Date();
-  const today = new Date(
-    todayWithTime.getFullYear(),
-    todayWithTime.getMonth(),
-    todayWithTime.getDate()
-  );
+function Calendar({
+  selectedDate,
+  setSelectedDate,
+  today,
+  visible,
+  setVisible,
+}) {
   const day = today.getDate();
   const month = today.getMonth();
   const year = today.getFullYear();
 
-  const [selectedDate, setSelectedDate] = useState(today);
   const [displayMonth, setDisplayMonth] = useState(new Date(year, month, 1));
 
   const nextMonth = new Date(
@@ -37,8 +36,16 @@ function Calendar() {
     ' ' +
     displayMonth.getFullYear();
 
+  const partId = 3;
+  let left = 0;
+  if (visible > partId) left = 'calc(-100% - 100px)';
+  if (visible < partId) left = 'calc(100% + 100px)';
+
   return (
-    <>
+    <div
+      className="calendar"
+      style={{ opacity: visible === partId ? 1 : 0, left: left }}
+    >
       <div className="calendar-controls">
         <span>{monthName}</span>
         <span>
@@ -55,7 +62,11 @@ function Calendar() {
           setSelectedDate
         )}
       </div>
-    </>
+      <hr />
+      <div className="done" onClick={() => setVisible(4)}>
+        done
+      </div>
+    </div>
   );
 }
 

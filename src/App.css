@@ -28,14 +28,13 @@ div {
 
 .middle-container {
   background-color: white;
-  justify-content: center;
+  padding-top: 50px;
   align-items: center;
   width: 250px;
   max-width: 100%;
   height: 100%;
   flex-direction: column;
 }
-
 .calendar-controls {
   width: 100%;
   justify-content: space-between;
@@ -96,4 +95,136 @@ div {
 .disabled {
   cursor: default;
   pointer-events: none;
+}
+
+form,
+.booking-widget {
+  width: 100%;
+  position: relative;
+}
+
+form > div {
+  transition: 0.7s ease;
+  position: absolute;
+  width: 100%;
+}
+
+input,
+button {
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  border: 1px solid var(--light-grey);
+  outline: none !important;
+  font-family: inherit;
+  text-align: center;
+  font-size: 14px;
+  caret-color: transparent;
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  background-color: var(--blue);
+  color: white;
+}
+
+.input-container {
+  position: relative;
+  margin: 3px 0;
+}
+
+.input-container svg,
+.covers-picker .option svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  color: var(--blue);
+  width: 26px !important;
+  height: auto !important;
+}
+
+.time-picker .am-pm .row .cell {
+  margin: 0 1.5px;
+}
+
+.time-picker .cell {
+  height: 30px;
+  border: 1px solid var(--light-grey);
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  width: calc(calc(100% / 4) - 2px);
+  cursor: pointer;
+}
+
+.time-picker .am-pm .row {
+  justify-content: center;
+}
+
+.time-picker .row {
+  flex: 1;
+  margin-bottom: 3px;
+  justify-content: space-between;
+}
+
+.time-picker,
+.hours {
+  flex-direction: column;
+}
+
+.time-picker .cell.selected {
+  border: 0;
+  background-color: var(--blue);
+  color: white;
+}
+hr {
+  height: 1px;
+  width: 100%;
+  background-color: var(--light-grey);
+  border: 0;
+  padding: 0;
+  margin: 10px 0 12px 0;
+}
+.covers-picker,
+.search-form,
+.calendar {
+  flex-direction: column;
+}
+.covers-picker .option {
+  width: 100%;
+  margin-bottom: 3px;
+  height: 30px;
+  border: 1px solid var(--light-grey);
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 13px;
+  cursor: pointer;
+}
+p {
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+}
+
+.covers-picker .option.selected {
+  border: 0;
+  color: white;
+  background: var(--blue);
+}
+.covers-picker .option.selected svg {
+  color: white !important;
+}
+.done {
+  width: 100%;
+  font-size: 13px;
+  background-color: var(--blue);
+  color: white;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

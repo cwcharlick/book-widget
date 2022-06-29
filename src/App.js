@@ -1,11 +1,11 @@
 import './App.css';
-import Calendar from './components/Calendar';
+import Widget from './components/Widget';
 
 function App() {
   return (
     <div className="main-container">
       <div className="middle-container">
-        <Calendar />
+        <Widget />
       </div>
     </div>
   );
