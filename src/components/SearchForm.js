@@ -24,44 +24,24 @@ function SearchForm({
         left: left,
       }}
     >
-      <div className="input-container">
+      <div className="input-container" onClick={() => setVisible(3)}>
         <CalendarMonthRoundedIcon />
-        <input
-          onClick={() => setVisible(3)}
-          type="text"
-          name="date"
-          readonly
-          value={`${selectedDate.toLocaleDateString('en-UK', {
-            weekday: 'short',
-          })}, ${selectedDate.getDate()} ${selectedDate.toLocaleDateString(
-            'en-UK',
-            {
-              month: 'short',
-            }
-          )}`}
-        />
+        {selectedDate.toLocaleDateString('en-UK', {
+          weekday: 'short',
+        })}
+        , {selectedDate.getDate()}{' '}
+        {selectedDate.toLocaleDateString('en-UK', {
+          month: 'short',
+        })}
       </div>
-      <div className="input-container">
+      <div className="input-container" onClick={() => setVisible(2)}>
         <AccessTimeRoundedIcon />
-        <input
-          onClick={() => setVisible(2)}
-          type="text"
-          name="time"
-          readonly
-          value={`${hours}:${minutes === 0 ? '00' : minutes}${
-            am ? 'am' : 'pm'
-          }`}
-        />
+        {hours}:{minutes === 0 ? '00' : minutes}
+        {am ? 'am' : 'pm'}
       </div>
-      <div className="input-container">
+      <div className="input-container" onClick={() => setVisible(1)}>
         <PersonOutlineRoundedIcon />
-        <input
-          onClick={() => setVisible(1)}
-          type="text"
-          name="covers"
-          readonly
-          value={covers === 1 ? '1 person' : `${covers} people`}
-        />
+        {covers === 1 ? '1 person' : `${covers} people`}
       </div>
       <div className="input-container">
         <button>Check availability</button>

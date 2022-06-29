@@ -3,8 +3,9 @@ body,
 #root {
   height: 100%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-
   font-size: 14px;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 :root {
@@ -25,6 +26,7 @@ div {
   justify-content: center;
   flex: 1;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 .middle-container {
@@ -110,19 +112,18 @@ form > div {
   width: 100%;
 }
 
-input,
-button {
+button,
+.input-container {
   width: 100%;
   min-width: 100%;
   box-sizing: border-box;
   height: 40px;
   border: 1px solid var(--light-grey);
-  outline: none !important;
   font-family: inherit;
-  text-align: center;
   font-size: 14px;
-  caret-color: transparent;
   cursor: pointer;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
