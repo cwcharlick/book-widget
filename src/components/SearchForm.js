@@ -44,7 +44,9 @@ function SearchForm({
         {covers === 1 ? '1 person' : `${covers} people`}
       </div>
       <div className="input-container">
-        <button>Check availability</button>
+        <button type="button" onClick={() => setVisible(5)}>
+          Check availability
+        </button>
       </div>
     </div>
   );

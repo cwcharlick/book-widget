@@ -147,12 +147,11 @@ button {
   width: 26px !important;
   height: auto !important;
 }
-
-.time-picker .am-pm .row .cell {
+.am-pm .row .cell,
+.please-move .row .cell {
   margin: 0 1.5px;
 }
-
-.time-picker .cell {
+.cell {
   height: 30px;
   border: 1px solid var(--light-grey);
   justify-content: center;
@@ -161,23 +160,26 @@ button {
   width: calc(calc(100% / 4) - 2px);
   cursor: pointer;
 }
-
-.time-picker .am-pm .row {
+.am-pm .row,
+.please-move .row {
   justify-content: center;
 }
-
-.time-picker .row {
+.row {
   flex: 1;
   margin-bottom: 3px;
   justify-content: space-between;
 }
 
 .time-picker,
-.hours {
+.hours,
+.no-availability,
+.please-move,
+.details,
+.confirmation {
   flex-direction: column;
 }
-
-.time-picker .cell.selected {
+.cell.selected,
+.cell:hover {
   border: 0;
   background-color: var(--blue);
   color: white;
@@ -229,4 +231,37 @@ p {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.no-availability p,
+.confirmation p {
+  margin: 10px;
+}
+
+.no-availability {
+  flex-direction: column;
+}
+
+.link-text {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.link-text:hover {
+  color: var(--blue);
+}
+
+input.input-container,
+textarea.input-container {
+  outline: none;
+  padding-left: 15px;
+  margin-top: 10px;
+}
+textarea.input-container {
+  padding: 15px;
+  min-height: 10rem;
+  height: 10rem;
 }

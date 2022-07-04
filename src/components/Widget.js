@@ -4,8 +4,12 @@ import Calendar from './Calendar';
 import TimePicker from './TimePicker';
 import CoversPicker from './CoversPicker';
 import SearchForm from './SearchForm';
+import NoAvailability from './NoAvailability';
+import PleaseMove from './PleaseMove';
+import Details from './Details';
+import Confirmation from './Confirmation';
 
-function Widget({ h = 7, m = 0, a = false, c = 2 }) {
+function Widget({ h = 6, m = 30, a = false, c = 2 }) {
   const todayWithTime = new Date();
   const today = new Date(
     todayWithTime.getFullYear(),
@@ -28,6 +32,10 @@ function Widget({ h = 7, m = 0, a = false, c = 2 }) {
     { id: 2, name: 'time' },
     { id: 3, name: 'date' },
     { id: 4, name: 'search' },
+    { id: 5, name: 'please move' },
+    { id: 7, name: 'no availability' },
+    { id: 8, name: 'details' },
+    { id: 9, name: 'confirmation' },
   ];
 
   return (
@@ -65,6 +73,29 @@ function Widget({ h = 7, m = 0, a = false, c = 2 }) {
           visible={visible}
           setVisible={setVisible}
         />
+        <NoAvailability visible={visible} setVisible={setVisible} />
+        <PleaseMove
+          visible={visible}
+          setVisible={setVisible}
+          hours={hours}
+          setHours={setHours}
+          minutes={minutes}
+          setMinutes={setMinutes}
+          options={[
+            { hours: 6, minutes: 30 },
+            { hours: 7, minutes: 30 },
+          ]}
+        />
+        <Details
+          visible={visible}
+          setVisible={setVisible}
+          covers={covers}
+          hours={hours}
+          minutes={minutes}
+          am={am}
+          selectedDate={selectedDate}
+        />
+        <Confirmation visible={visible} setVisible={setVisible} />
       </form>
     </div>
   );

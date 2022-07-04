@@ -29,7 +29,7 @@ function CoversPicker({ covers, setCovers, visible, setVisible }) {
       <p>For groups of more than 6, please call us on 01934 123 456</p>
       <hr />
       <div className="done" onClick={() => setVisible(4)}>
-        done
+        Done
       </div>
     </div>
   );
