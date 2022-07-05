@@ -1,3 +1,50 @@
+import { useState } from 'react';
+import { postPublicBooking } from '../api/public';
+
+async function submitBooking(
+  savePending,
+  setSavePending,
+  time,
+  turn_time,
+  restaurantId
+) {
+  if (savePending) return;
+  setSavePending(true);
+
+  let usable_end_time = parseInt(time / 100) * 60 + (time % 100) + turn_time;
+
+  usable_end_time =
+    parseInt(usable_end_time / 60) * 100 + (usable_end_time % 60);
+
+  let booking = {
+    restaurant: this.state.restaurantId,
+    time,
+    phone: this.state.phone,
+    email: this.state.email,
+    name: this.state.name,
+    covers: this.state.covers,
+    date: this.state.date,
+    turn_time: this.state.turn_time,
+    usable_end_time: usable_end_time,
+    statusesId: this.state.statuses._id,
+    statusId: this.state.statuses.list[0]._id,
+    history: [
+      {
+        statusId: this.state.statuses.list[0]._id,
+        date: new Date(),
+        phase: 1,
+      },
+    ],
+  };
+  const response = await postPublicBooking(booking);
+  if (response.status === 200) return this.changeStage(this.state.stage + 1);
+
+  response
+    .text()
+    .then((errorMessage) => this.setState({ errorMessage, loading: false }));
+  return false;
+}
+
 function Details({
   visible,
   setVisible,
@@ -7,6 +54,12 @@ function Details({
   am,
   selectedDate,
 }) {
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const [email, setEmail] = useState();
+  const [notes, setNotes] = useState();
+  const [savePending, setSavePending] = useState();
+
   const partId = 8;
   let left = 0;
   if (visible > partId) left = 'calc(-100% - 100px)';
@@ -38,26 +91,33 @@ function Details({
       </p>
       <input
         type="text"
-        class="input-container"
+        className="input-container"
         style={{ outline: 'none' }}
+        value={name}
+        onChange={(e) => setName(e.value)}
         placeholder="Name"
       />
       <input
         type="text"
-        class="input-container"
+        className="input-container"
         style={{ outline: 'none' }}
+        value={phone}
+        onChange={(e) => setPhone(e.value)}
         placeholder="Phone Number"
       />
       <input
         type="email"
-        class="input-container"
+        className="input-container"
         style={{ outline: 'none' }}
+        value={email}
+        onChange={(e) => setEmail(e.value)}
         placeholder="Email Address"
       />
       <textarea
-        type="email"
-        class="input-container"
+        className="input-container"
         style={{ outline: 'none' }}
+        value={notes}
+        onChange={(e) => setNotes(e.value)}
         placeholder="Requests & requirements"
       />
       <hr />

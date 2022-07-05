@@ -10,6 +10,8 @@ function SearchForm({
   covers,
   visible,
   setVisible,
+  loading,
+  options,
 }) {
   let partId = 4;
   let left = 0;
@@ -44,8 +46,21 @@ function SearchForm({
         {covers === 1 ? '1 person' : `${covers} people`}
       </div>
       <div className="input-container">
-        <button type="button" onClick={() => setVisible(5)}>
-          Check availability
+        <button
+          type="button"
+          onClick={() => {
+            if (options.length === 0) return setVisible(7);
+            if (
+              options.length === 1 &&
+              options[0].hours === hours &&
+              options[0].minutes === minutes &&
+              options[0].am === am
+            )
+              return setVisible(8);
+            setVisible(5);
+          }}
+        >
+          {loading ? 'One moment...' : 'Check availability'}
         </button>
       </div>
     </div>

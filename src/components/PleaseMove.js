@@ -6,8 +6,10 @@ function PleaseMove({
   options,
   hours,
   minutes,
+  am,
   setHours,
   setMinutes,
+  setAm,
 }) {
   const partId = 5;
   let left = 0;
@@ -27,26 +29,40 @@ function PleaseMove({
       </p>
       <hr />
       <div className="row">
-        {options.map((o, i) => {
-          let css = 'cell';
-          if (o.hours === hours && o.minutes === minutes) css = 'cell selected';
-          return (
-            <div
-              key={i}
-              className={css}
-              onClick={() => {
-                setHours(o.hours);
-                setMinutes(o.minutes);
-                setVisible(8);
-              }}
-            >
-              {o.hours}:{o.minutes}
-            </div>
-          );
-        })}
+        {options
+          .filter(
+            (o) => !(o.hours === hours && o.minutes === minutes && o.am === am)
+          )
+          .map((o, i) => {
+            let css = 'cell';
+            if (o.hours === hours && o.minutes === minutes)
+              css = 'cell selected';
+            return (
+              <div
+                key={i}
+                className={css}
+                onClick={() => {
+                  setHours(o.hours);
+                  setMinutes(o.minutes);
+                  setVisible(8);
+                }}
+              >
+                {o.hours}:{o.minutes}
+              </div>
+            );
+          })}
       </div>
       <hr />
-      <div className="link-text" onClick={() => setVisible(7)}>
+      <div
+        className="link-text"
+        onClick={() => {
+          options.find(
+            (o) => o.hours === hours && o.minutes === minutes && o.am === am
+          )
+            ? setVisible(8)
+            : setVisible(7);
+        }}
+      >
         I need {hours}:{minutes === 0 ? '00' : minutes} <ArrowRightAltIcon />
       </div>
     </div>
