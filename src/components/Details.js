@@ -171,7 +171,7 @@ function Details({
           style={{
             backgroundColor: 'transparent',
             color: 'unset',
-            border: `1px solid var(--blue)`,
+            border: `1px solid var(--accent)`,
             marginRight: 2.5,
           }}
         >

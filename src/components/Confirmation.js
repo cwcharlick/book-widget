@@ -12,7 +12,7 @@ function Confirmation({ visible, setVisible }) {
       }}
     >
       <p>
-        <b>You're booked in!</b>
+        <b style={{ fontSize: '14px' }}>You're booked in!</b>
       </p>
       <p>
         Please check your email for confirmation, and instructions on how to
@@ -26,7 +26,7 @@ function Confirmation({ visible, setVisible }) {
           style={{
             backgroundColor: 'transparent',
             color: 'unset',
-            border: `1px solid var(--blue)`,
+            border: `1px solid var(--accent)`,
             marginRight: 2.5,
           }}
         >

@@ -134,5 +134,21 @@ export async function postPublicBooking(booking) {
   return data;
 }
 
+export async function getPublicStyles(restId) {
+  const requestOptions = {
+    method: 'GET',
+  };
+
+  let data = await fetch(
+    'https://evening-eyrie-53360.herokuapp.com/api/styles/public/' + restId,
+    requestOptions
+  );
+
+  let result = JSON.parse(await data.text());
+  console.log(data);
+
+  return result;
+}
+
 // get rest from id
 // get all schedules, table plans, bookings, pacings from id. No PII.

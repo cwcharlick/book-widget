@@ -40,6 +40,7 @@ function PleaseMove({
             return (
               <div
                 key={i}
+                style={{ borderColor: 'var(--accent)' }}
                 className={css}
                 onClick={() => {
                   setHours(o.hours);

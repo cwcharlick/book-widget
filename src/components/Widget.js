@@ -12,7 +12,6 @@ import {
   getPublicBookings,
   getPublicPacingOverrides,
   getPublicPacings,
-  getPublicRestaurant,
   getPublicSchedules,
   getPublicStatuses,
   getPublicTables,
@@ -31,11 +30,10 @@ import { findAvailability } from '../helper/functions';
 //   { id: 9, name: 'confirmation' },
 // ];
 
-function Widget({ h = 6, m = 30, a = false, c = 2 }) {
+function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
-  const [restaurantId, setRestaurantId] = useState(null);
   const [allSchedules, setAllSchedules] = useState(null);
   const [allTables, setAllTables] = useState(null);
   const [bookings, setBookings] = useState(null);
@@ -60,13 +58,6 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
   const [covers, setCovers] = useState(c);
   const [visible, setVisible] = useState(4);
   const [reload, setReload] = useState(1);
-
-  const slug = window.location.pathname.split('/')[1];
-  useEffect(() => {
-    getPublicRestaurant(slug).then((v) => {
-      setRestaurantId(v);
-    });
-  }, []);
 
   useEffect(() => {
     if (!restaurantId) return;
