@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { postPublicBooking } from '../api/public';
+import { minutesHoursAmToNumber } from '../helper/functions';
 
 async function submitBooking(
   savePending,
   setSavePending,
   time,
+  restaurantId,
+  phone,
+  email,
+  name,
+  covers,
+  date,
   turn_time,
-  restaurantId
+  statuses,
+  notes,
+  setVisible,
+  setError
 ) {
   if (savePending) return;
   setSavePending(true);
@@ -15,34 +25,41 @@ async function submitBooking(
 
   usable_end_time =
     parseInt(usable_end_time / 60) * 100 + (usable_end_time % 60);
-
+  console.log(phone);
   let booking = {
-    restaurant: this.state.restaurantId,
+    restaurant: restaurantId,
     time,
-    phone: this.state.phone,
-    email: this.state.email,
-    name: this.state.name,
-    covers: this.state.covers,
-    date: this.state.date,
-    turn_time: this.state.turn_time,
-    usable_end_time: usable_end_time,
-    statusesId: this.state.statuses._id,
-    statusId: this.state.statuses.list[0]._id,
+    phone: phone,
+    email,
+    name,
+    covers,
+    date,
+    turn_time,
+    usable_end_time,
+    statusesId: statuses._id,
+    statusId: statuses.list[0]._id,
+    description: `Web booking. ${notes}`,
     history: [
       {
-        statusId: this.state.statuses.list[0]._id,
+        statusId: statuses.list[0]._id,
         date: new Date(),
         phase: 1,
       },
     ],
   };
   const response = await postPublicBooking(booking);
-  if (response.status === 200) return this.changeStage(this.state.stage + 1);
+  setSavePending(false);
 
-  response
-    .text()
-    .then((errorMessage) => this.setState({ errorMessage, loading: false }));
-  return false;
+  if (response.status === 200) return setVisible(9);
+
+  response.text().then((errorMessage) =>
+    setError(
+      <>
+        <span className="warning">{errorMessage}</span>
+        <hr />
+      </>
+    )
+  );
 }
 
 function Details({
@@ -53,17 +70,40 @@ function Details({
   minutes,
   am,
   selectedDate,
+  onReloadCheck,
+  statuses,
+  turnTime,
+  restaurantId,
+  setSearchError,
 }) {
-  const [name, setName] = useState();
-  const [phone, setPhone] = useState();
-  const [email, setEmail] = useState();
-  const [notes, setNotes] = useState();
-  const [savePending, setSavePending] = useState();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [notes, setNotes] = useState('');
+  const [savePending, setSavePending] = useState('');
+  const [error, setError] = useState();
 
   const partId = 8;
   let left = 0;
   if (visible > partId) left = 'calc(-100% - 100px)';
   if (visible < partId) left = 'calc(100% + 100px)';
+
+  const bookingSlotLost = () => {
+    setSearchError(
+      <>
+        <span className="warning">
+          Unfortunately the last table for{' '}
+          {`${hours === 0 && am === false ? '12' : hours}:${
+            minutes === 0 ? '00' : minutes
+          }${am ? 'am' : 'pm'}`}{' '}
+          was just booked. Please try another time.
+        </span>
+        <hr />
+      </>
+    );
+    setVisible(4);
+  };
+
   return (
     <div
       className="details"
@@ -73,9 +113,11 @@ function Details({
       }}
     >
       <p style={{ marginBottom: 20 }}>
-        Booking for <b>{covers === 1 ? '1 person' : `${covers} people`}</b> at{' '}
+        We have space available. Let's book you in for{' '}
+        <b>{covers === 1 ? '1 person' : `${covers} people`}</b> at{' '}
         <b>
-          {hours}:{minutes === 0 ? '00' : minutes}
+          {hours === 0 && am === false ? '12' : hours}:
+          {minutes === 0 ? '00' : minutes}
           {am ? 'am' : 'pm'}
         </b>{' '}
         on{' '}
@@ -94,7 +136,7 @@ function Details({
         className="input-container"
         style={{ outline: 'none' }}
         value={name}
-        onChange={(e) => setName(e.value)}
+        onChange={(e) => setName(e.target.value)}
         placeholder="Name"
       />
       <input
@@ -102,7 +144,7 @@ function Details({
         className="input-container"
         style={{ outline: 'none' }}
         value={phone}
-        onChange={(e) => setPhone(e.value)}
+        onChange={(e) => setPhone(e.target.value)}
         placeholder="Phone Number"
       />
       <input
@@ -110,17 +152,18 @@ function Details({
         className="input-container"
         style={{ outline: 'none' }}
         value={email}
-        onChange={(e) => setEmail(e.value)}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Email Address"
       />
       <textarea
         className="input-container"
         style={{ outline: 'none' }}
         value={notes}
-        onChange={(e) => setNotes(e.value)}
+        onChange={(e) => setNotes(e.target.value)}
         placeholder="Requests & requirements"
       />
       <hr />
+      {error}
       <div className="row">
         <div
           className="done"
@@ -136,11 +179,38 @@ function Details({
         </div>
         <div
           className="done"
-          onClick={() => setVisible(9)}
+          onClick={() => {
+            onReloadCheck().then((res) => {
+              console.log(res);
+              let failed = true;
+              res.forEach((r) => {
+                if (r.hours === hours && r.minutes === minutes && r.am === am)
+                  failed = false;
+              });
+              failed
+                ? bookingSlotLost()
+                : submitBooking(
+                    savePending,
+                    setSavePending,
+                    minutesHoursAmToNumber(minutes, hours, am),
+                    restaurantId,
+                    phone,
+                    email,
+                    name,
+                    covers,
+                    selectedDate,
+                    turnTime,
+                    statuses,
+                    notes,
+                    setVisible,
+                    setError
+                  );
+            });
+            // setVisible(9);
+          }}
           style={{ marginLeft: 2.3 }}
         >
-          {' '}
-          Book now
+          {savePending ? 'Booking...' : 'Book now'}
         </div>
       </div>
     </div>

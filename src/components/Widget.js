@@ -43,6 +43,9 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
   const [allPacingOverrides, setAllPacingOverrides] = useState(null);
   const [allStatuses, setAllStatuses] = useState(null);
   const [options, setOptions] = useState([]);
+  const [statuses, setStatuses] = useState([]);
+  const [turnTime, setTurnTime] = useState([]);
+  const [searchError, setSearchError] = useState();
 
   const todayWithTime = new Date();
   const today = new Date(
@@ -56,6 +59,7 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
   const [am, setAm] = useState(a);
   const [covers, setCovers] = useState(c);
   const [visible, setVisible] = useState(4);
+  const [reload, setReload] = useState(1);
 
   const slug = window.location.pathname.split('/')[1];
   useEffect(() => {
@@ -70,7 +74,7 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
       setBookings(v);
       setLoading(false);
     });
-  }, [restaurantId, selectedDate]);
+  }, [restaurantId, selectedDate, reload]);
 
   useEffect(() => {
     if (!restaurantId) return;
@@ -94,7 +98,7 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
       setAllPacingOverrides(res[4]);
       setLoading2(false);
     });
-  }, [restaurantId]);
+  }, [restaurantId, reload]);
 
   useEffect(() => {
     if (loading || loading2) return;
@@ -112,13 +116,54 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
           am,
           hours,
           minutes,
-          allPacingOverrides
+          allPacingOverrides,
+          setStatuses,
+          setTurnTime
         )
       );
-    } catch {
+    } catch (e) {
+      console.log(e);
       setOptions([]);
     }
   }, [selectedDate, hours, minutes, am, covers, loading, loading2]);
+
+  const handleReloadCheck = async () => {
+    const res = await Promise.all([
+      getPublicSchedules(restaurantId),
+      getPublicTables(restaurantId),
+      getPublicPacings(restaurantId),
+      getPublicStatuses(restaurantId),
+      getPublicPacingOverrides(restaurantId),
+      getPublicBookings(restaurantId, selectedDate),
+    ]);
+
+    setAllPacings(res[2]);
+    setAllSchedules(res[0]);
+    setAllStatuses(res[3]);
+    setAllTables(res[1]);
+    setAllPacingOverrides(res[4]);
+    setBookings(res[5]);
+
+    console.log('po', res[4]);
+    const fa = findAvailability(
+      selectedDate,
+      res[0],
+      res[1],
+      res[2],
+      res[3],
+      res[5],
+      covers,
+      am,
+      hours,
+      minutes,
+      res[4],
+      setStatuses,
+      setTurnTime
+    );
+    console.log('fa', fa);
+    setOptions(fa);
+    return fa;
+  };
 
   return (
     <div className="booking-widget">
@@ -156,6 +201,8 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
           setVisible={setVisible}
           loading={loading}
           options={options}
+          searchError={searchError}
+          setSearchError={setSearchError}
         />
         <NoAvailability visible={visible} setVisible={setVisible} />
         <PleaseMove
@@ -177,6 +224,12 @@ function Widget({ h = 6, m = 30, a = false, c = 2 }) {
           minutes={minutes}
           am={am}
           selectedDate={selectedDate}
+          onReloadCheck={handleReloadCheck}
+          statuses={statuses}
+          turnTime={turnTime}
+          restaurantId={restaurantId}
+          searchError={searchError}
+          setSearchError={setSearchError}
         />
         <Confirmation visible={visible} setVisible={setVisible} />
       </form>

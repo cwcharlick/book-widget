@@ -12,6 +12,8 @@ function SearchForm({
   setVisible,
   loading,
   options,
+  searchError,
+  setSearchError,
 }) {
   let partId = 4;
   let left = 0;
@@ -26,6 +28,7 @@ function SearchForm({
         left: left,
       }}
     >
+      {searchError}
       <div className="input-container" onClick={() => setVisible(3)}>
         <CalendarMonthRoundedIcon />
         {selectedDate.toLocaleDateString('en-UK', {
@@ -38,7 +41,8 @@ function SearchForm({
       </div>
       <div className="input-container" onClick={() => setVisible(2)}>
         <AccessTimeRoundedIcon />
-        {hours}:{minutes === 0 ? '00' : minutes}
+        {hours === 0 && am === false ? '12' : hours}:
+        {minutes === 0 ? '00' : minutes}
         {am ? 'am' : 'pm'}
       </div>
       <div className="input-container" onClick={() => setVisible(1)}>
@@ -49,6 +53,7 @@ function SearchForm({
         <button
           type="button"
           onClick={() => {
+            setSearchError();
             if (options.length === 0) return setVisible(7);
             if (
               options.length === 1 &&

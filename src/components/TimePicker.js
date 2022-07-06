@@ -1,3 +1,19 @@
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+
+function createHours(num, hours, setHours, minutes, pm = false) {
+  return (
+    <div
+      className={hours === num ? 'cell selected' : 'cell'}
+      onClick={() => setHours(num)}
+    >
+      <span>
+        {pm ? '12' : num}
+        <span style={{ opacity: 0.7 }}>:{minutes === 0 ? '00' : minutes}</span>
+      </span>
+    </div>
+  );
+}
+
 function TimePicker({
   hours,
   setHours,
@@ -17,84 +33,31 @@ function TimePicker({
       className="time-picker"
       style={{ opacity: visible === partId ? 1 : 0, left: left }}
     >
+      <span style={{ textAlign: 'center' }}>
+        Selected:{' '}
+        <b style={{ color: 'var(--blue)' }}>{`${hours}:${
+          minutes === 0 ? '00' : minutes
+        }${am ? 'am' : 'pm'}`}</b>
+      </span>
+      <hr />
       <div className="hours">
         <div className="row">
-          <div
-            className={hours === 1 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(1)}
-          >
-            1:00
-          </div>
-          <div
-            className={hours === 2 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(2)}
-          >
-            2:00
-          </div>
-          <div
-            className={hours === 3 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(3)}
-          >
-            3:00
-          </div>
-          <div
-            className={hours === 4 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(4)}
-          >
-            4:00
-          </div>
+          {createHours(0, hours, setHours, minutes, !am)}
+          {createHours(1, hours, setHours, minutes)}
+          {createHours(2, hours, setHours, minutes)}
+          {createHours(3, hours, setHours, minutes)}
         </div>
         <div className="row">
-          <div
-            className={hours === 5 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(5)}
-          >
-            5:00
-          </div>
-          <div
-            className={hours === 6 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(6)}
-          >
-            6:00
-          </div>
-          <div
-            className={hours === 7 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(7)}
-          >
-            7:00
-          </div>
-          <div
-            className={hours === 8 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(8)}
-          >
-            8:00
-          </div>
+          {createHours(4, hours, setHours, minutes)}
+          {createHours(5, hours, setHours, minutes)}
+          {createHours(6, hours, setHours, minutes)}
+          {createHours(7, hours, setHours, minutes)}
         </div>
         <div className="row">
-          <div
-            className={hours === 9 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(9)}
-          >
-            9:00
-          </div>
-          <div
-            className={hours === 10 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(10)}
-          >
-            10:00
-          </div>
-          <div
-            className={hours === 11 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(11)}
-          >
-            11:00
-          </div>
-          <div
-            className={hours === 12 ? 'cell selected' : 'cell'}
-            onClick={() => setHours(12)}
-          >
-            12:00
-          </div>
+          {createHours(8, hours, setHours, minutes)}
+          {createHours(9, hours, setHours, minutes)}
+          {createHours(10, hours, setHours, minutes)}
+          {createHours(11, hours, setHours, minutes)}
         </div>
       </div>
       <hr />
@@ -145,7 +108,10 @@ function TimePicker({
       </div>
       <hr />
       <div className="done" onClick={() => setVisible(4)}>
-        done
+        {`${hours === 0 && am === false ? '12' : hours}:${
+          minutes === 0 ? '00' : minutes
+        }${am ? 'am' : 'pm'}`}{' '}
+        <CheckRoundedIcon />
       </div>
     </div>
   );

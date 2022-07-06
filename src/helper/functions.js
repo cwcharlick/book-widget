@@ -9,7 +9,9 @@ export function findAvailability(
   am,
   hours,
   minutes,
-  allPacingOverrides
+  allPacingOverrides,
+  setStatuses,
+  setTurnTime
 ) {
   const availableSchedules = allSchedules.filter(
     (schedule) => schedule.startDate <= date && schedule.lastDate >= date
@@ -42,8 +44,10 @@ export function findAvailability(
   const statuses = allStatuses.find(
     (statuses) => statuses._id === day.statusesId
   );
+  if (setStatuses) setStatuses(statuses);
 
-  const turnTime = setTurnTime(statuses, covers);
+  const turnTime = findTurnTime(statuses, covers);
+  if (setTurnTime) setTurnTime(turnTime);
 
   optimiseTables(tables, bookings);
 
@@ -96,8 +100,9 @@ export function findAvailability(
   const otherOptions = [];
   // futureproof, make it editable how far it will push them. bestRange is time in mins that it will still look for best scores.
   const bestRange = 45;
-
+  console.log('1', options);
   const before = options.filter((o) => o.time < timeNumber && o.score > -9999);
+  console.log('options', options);
   const bestBefore = before.filter(
     (o) =>
       timeNumberToValue(o.time) + bestRange >= timeNumberToValue(timeNumber)
@@ -110,7 +115,7 @@ export function findAvailability(
       )
     );
   } else {
-    otherOptions.push(before[before.length - 1]);
+    before.length > 0 && otherOptions.push(before[before.length - 1]);
   }
 
   const after = options.filter((o) => o.time > timeNumber && o.score > -9999);
@@ -126,12 +131,13 @@ export function findAvailability(
       )
     );
   } else {
-    otherOptions.push(after[0]);
+    after.length > 0 && otherOptions.push(after[0]);
   }
-
+  console.log('oo', otherOptions);
   if (score.score === -9999) {
-    otherOptions[0] = timeNumberToMinutesHoursAm(otherOptions[0].time);
-    otherOptions[1] = timeNumberToMinutesHoursAm(otherOptions[1].time);
+    for (let i = 0; i < otherOptions.length; i++) {
+      otherOptions[i] = timeNumberToMinutesHoursAm(otherOptions[i].time);
+    }
     return otherOptions;
   }
 
@@ -157,7 +163,7 @@ function timeNumberToMinutesHoursAm(time) {
   return { minutes, hours, am };
 }
 
-function minutesHoursAmToNumber(minutes, hours, am) {
+export function minutesHoursAmToNumber(minutes, hours, am) {
   return (am || hours === 12 ? hours : hours + 12) * 100 + minutes;
 }
 
@@ -169,7 +175,7 @@ function timeValueToNumber(value) {
   return parseInt(value / 60) * 100 + (value % 60);
 }
 
-function setTurnTime(statuses, covers) {
+function findTurnTime(statuses, covers) {
   let turn_time = statuses.turnTimeTotal.filter(
     (tableSizes) => tableSizes.tableSize <= covers
   );

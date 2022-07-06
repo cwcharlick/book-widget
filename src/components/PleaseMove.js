@@ -47,7 +47,8 @@ function PleaseMove({
                   setVisible(8);
                 }}
               >
-                {o.hours}:{o.minutes}
+                {o.hours === 0 && o.am === false ? '12' : o.hours}:
+                {o.minutes === 0 ? '00' : o.minutes}
               </div>
             );
           })}
@@ -63,7 +64,8 @@ function PleaseMove({
             : setVisible(7);
         }}
       >
-        I need {hours}:{minutes === 0 ? '00' : minutes} <ArrowRightAltIcon />
+        I need {hours === 0 && am === false ? '12' : hours}:
+        {minutes === 0 ? '00' : minutes} <ArrowRightAltIcon />
       </div>
     </div>
   );

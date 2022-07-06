@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 function Calendar({
   selectedDate,
@@ -64,7 +65,14 @@ function Calendar({
       </div>
       <hr />
       <div className="done" onClick={() => setVisible(4)}>
-        done
+        {selectedDate.toLocaleDateString('en-UK', {
+          weekday: 'short',
+        })}
+        , {selectedDate.getDate()}{' '}
+        {selectedDate.toLocaleDateString('en-UK', {
+          month: 'short',
+        })}{' '}
+        <CheckRoundedIcon />
       </div>
     </div>
   );
