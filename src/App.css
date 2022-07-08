@@ -21,6 +21,15 @@ div {
   box-sizing: border-box;
   display: flex;
 }
+a {
+  color: var(--primary);
+  font-weight: bold;
+  transition: 0.5s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
 
 .main-container {
   align-items: center;
@@ -169,6 +178,7 @@ button {
   flex: 1;
   margin-bottom: 3px;
   justify-content: space-between;
+  position: relative;
 }
 
 .time-picker,

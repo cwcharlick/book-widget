@@ -1,7 +1,13 @@
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
-function CoversPicker({ covers, setCovers, visible, setVisible }) {
+function CoversPicker({
+  covers,
+  setCovers,
+  visible,
+  setVisible,
+  restaurantPhone,
+}) {
   const options = [1, 2, 3, 4, 5, 6];
 
   const buttons = options.map((o) => (
@@ -27,7 +33,10 @@ function CoversPicker({ covers, setCovers, visible, setVisible }) {
     >
       {buttons}
       <hr />
-      <p>For groups of more than 6, please call us on 01934 123 456</p>
+      <p>
+        For groups of more than 6, please call us on{' '}
+        <a href={`tel:${restaurantPhone}`}>{restaurantPhone}</a>
+      </p>
       <hr />
       <div className="done" onClick={() => setVisible(4)}>
         {covers === 1 ? '1 person' : `${covers} people `} <CheckRoundedIcon />

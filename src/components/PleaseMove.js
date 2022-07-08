@@ -24,11 +24,21 @@ function PleaseMove({
       }}
     >
       <p>
-        We're looking a little busy around that time. Could you do a little
-        earlier or later?
+        We're looking a little busy around that time. Could you do a slightly
+        different time?
       </p>
       <hr />
       <div className="row">
+        <p
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }}
+        >
+          Yes:
+        </p>
         {options
           .filter(
             (o) => !(o.hours === hours && o.minutes === minutes && o.am === am)
@@ -55,18 +65,31 @@ function PleaseMove({
           })}
       </div>
       <hr />
-      <div
-        className="link-text"
-        onClick={() => {
-          options.find(
-            (o) => o.hours === hours && o.minutes === minutes && o.am === am
-          )
-            ? setVisible(8)
-            : setVisible(7);
-        }}
-      >
-        I need {hours === 0 && am === false ? '12' : hours}:
-        {minutes === 0 ? '00' : minutes} <ArrowRightAltIcon />
+      <div className="row">
+        {' '}
+        <p
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }}
+        >
+          No:
+        </p>
+        <div
+          className="link-text"
+          onClick={() => {
+            options.find(
+              (o) => o.hours === hours && o.minutes === minutes && o.am === am
+            )
+              ? setVisible(8)
+              : setVisible(7);
+          }}
+        >
+          I need {hours === 0 && am === false ? '12' : hours}:
+          {minutes === 0 ? '00' : minutes} <ArrowRightAltIcon />
+        </div>
       </div>
     </div>
   );

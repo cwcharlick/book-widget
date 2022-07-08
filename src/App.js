@@ -49,8 +49,6 @@ function App() {
     getPublicStyles(restaurantId)
       .then((v) => {
         const res = v[0];
-
-        console.log('no wai', res, style);
         setStyle(res);
         setLoading(false);
       })
@@ -111,7 +109,11 @@ function App() {
       </div>
       <hr style={{ marginTop: 30 }} />
       <div className="middle-container">
-        <Widget restaurantId={restaurantId} />
+        <Widget
+          restaurantId={restaurantId}
+          restaurantPhone={style.phone}
+          homeUrl={style.homeUrl}
+        />
       </div>
     </div>
   );

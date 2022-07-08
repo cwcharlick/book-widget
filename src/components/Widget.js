@@ -30,7 +30,15 @@ import { findAvailability } from '../helper/functions';
 //   { id: 9, name: 'confirmation' },
 // ];
 
-function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
+function Widget({
+  h = 6,
+  m = 30,
+  a = false,
+  c = 2,
+  restaurantId,
+  restaurantPhone,
+  homeUrl,
+}) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
@@ -134,8 +142,6 @@ function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
     setAllTables(res[1]);
     setAllPacingOverrides(res[4]);
     setBookings(res[5]);
-
-    console.log('po', res[4]);
     const fa = findAvailability(
       selectedDate,
       res[0],
@@ -151,7 +157,6 @@ function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
       setStatuses,
       setTurnTime
     );
-    console.log('fa', fa);
     setOptions(fa);
     return fa;
   };
@@ -164,6 +169,7 @@ function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
           setCovers={setCovers}
           visible={visible}
           setVisible={setVisible}
+          restaurantPhone={restaurantPhone}
         />
         <TimePicker
           hours={hours}
@@ -195,7 +201,11 @@ function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
           searchError={searchError}
           setSearchError={setSearchError}
         />
-        <NoAvailability visible={visible} setVisible={setVisible} />
+        <NoAvailability
+          visible={visible}
+          setVisible={setVisible}
+          restaurantPhone={restaurantPhone}
+        />
         <PleaseMove
           visible={visible}
           setVisible={setVisible}
@@ -222,7 +232,11 @@ function Widget({ h = 6, m = 30, a = false, c = 2, restaurantId }) {
           searchError={searchError}
           setSearchError={setSearchError}
         />
-        <Confirmation visible={visible} setVisible={setVisible} />
+        <Confirmation
+          visible={visible}
+          setVisible={setVisible}
+          homeUrl={homeUrl}
+        />
       </form>
     </div>
   );

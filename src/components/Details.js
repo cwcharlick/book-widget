@@ -25,7 +25,6 @@ async function submitBooking(
 
   usable_end_time =
     parseInt(usable_end_time / 60) * 100 + (usable_end_time % 60);
-  console.log(phone);
   let booking = {
     restaurant: restaurantId,
     time,
@@ -114,14 +113,17 @@ function Details({
     >
       <p style={{ marginBottom: 20 }}>
         We have space available. Let's book you in for{' '}
-        <b>{covers === 1 ? '1 person' : `${covers} people`}</b> at{' '}
-        <b>
+        <b style={{ color: 'var(--accent)' }}>
+          {covers === 1 ? '1 person' : `${covers} people`}
+        </b>{' '}
+        at{' '}
+        <b style={{ color: 'var(--accent)' }}>
           {hours === 0 && am === false ? '12' : hours}:
           {minutes === 0 ? '00' : minutes}
           {am ? 'am' : 'pm'}
         </b>{' '}
         on{' '}
-        <b>
+        <b style={{ color: 'var(--accent)' }}>
           {selectedDate.toLocaleDateString('en-UK', {
             weekday: 'short',
           })}
@@ -181,7 +183,6 @@ function Details({
           className="done"
           onClick={() => {
             onReloadCheck().then((res) => {
-              console.log(res);
               let failed = true;
               res.forEach((r) => {
                 if (r.hours === hours && r.minutes === minutes && r.am === am)
@@ -213,6 +214,7 @@ function Details({
           {savePending ? 'Booking...' : 'Book now'}
         </div>
       </div>
+      <p style={{ padding: 30 }} />
     </div>
   );
 }

@@ -100,9 +100,9 @@ export function findAvailability(
   const otherOptions = [];
   // futureproof, make it editable how far it will push them. bestRange is time in mins that it will still look for best scores.
   const bestRange = 45;
-  console.log('1', options);
+  //console.log('1', options);
   const before = options.filter((o) => o.time < timeNumber && o.score > -9999);
-  console.log('options', options);
+  //console.log('options', options);
   const bestBefore = before.filter(
     (o) =>
       timeNumberToValue(o.time) + bestRange >= timeNumberToValue(timeNumber)
@@ -133,7 +133,7 @@ export function findAvailability(
   } else {
     after.length > 0 && otherOptions.push(after[0]);
   }
-  console.log('oo', otherOptions);
+  //console.log('oo', otherOptions);
   if (score.score === -9999) {
     for (let i = 0; i < otherOptions.length; i++) {
       otherOptions[i] = timeNumberToMinutesHoursAm(otherOptions[i].time);

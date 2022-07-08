@@ -49,9 +49,10 @@ function SearchForm({
         <PersonOutlineRoundedIcon />
         {covers === 1 ? '1 person' : `${covers} people`}
       </div>
-      <div className="input-container">
+      <div className="input-container" style={{ border: 'none' }}>
         <button
           type="button"
+          style={{ border: 'none' }}
           onClick={() => {
             setSearchError();
             if (options.length === 0) return setVisible(7);

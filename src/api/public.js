@@ -145,7 +145,6 @@ export async function getPublicStyles(restId) {
   );
 
   let result = JSON.parse(await data.text());
-  console.log(data);
 
   return result;
 }

@@ -1,4 +1,4 @@
-function Confirmation({ visible, setVisible }) {
+function Confirmation({ visible, setVisible, homeUrl }) {
   const partId = 9;
   let left = 0;
   if (visible > partId) left = 'calc(-100% - 100px)';
@@ -34,7 +34,10 @@ function Confirmation({ visible, setVisible }) {
         </div>
         <div
           className="done"
-          onClick={() => setVisible(9)}
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = homeUrl;
+          }}
           style={{ marginLeft: 2.3 }}
         >
           {' '}

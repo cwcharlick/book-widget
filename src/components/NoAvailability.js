@@ -1,4 +1,4 @@
-function NoAvailability({ visible, setVisible }) {
+function NoAvailability({ visible, setVisible, restaurantPhone }) {
   const partId = 7;
   let left = 0;
   if (visible > partId) left = 'calc(-100% - 100px)';
@@ -18,7 +18,7 @@ function NoAvailability({ visible, setVisible }) {
       <p>
         Please call the restaurant on
         <br />
-        01934 123 456
+        <a href={`tel:${restaurantPhone}`}>{restaurantPhone}</a>
       </p>
       <hr />
       <div className="done" onClick={() => setVisible(4)}>
